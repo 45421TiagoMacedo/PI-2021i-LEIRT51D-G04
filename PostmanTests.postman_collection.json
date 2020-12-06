@@ -1,0 +1,761 @@
+{
+	"info": {
+		"_postman_id": "1d11b647-fdee-47e7-877b-4ac2c9e759d5",
+		"name": "PostmanTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TestPopularGames",
+			"item": [
+				{
+					"name": "Test Get Popular Games",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/popularGames",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"popularGames"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestSearchGamesByName",
+			"item": [
+				{
+					"name": "Test Search Game \"fifa\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "fifa"
+						},
+						"url": {
+							"raw": "http://localhost:8888/searchGames",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"searchGames"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Search Game \"sonic\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "sonic"
+						},
+						"url": {
+							"raw": "http://localhost:8888/searchGames",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"searchGames"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Search Game \"call of duty\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "call of duty"
+						},
+						"url": {
+							"raw": "http://localhost:8888/searchGames",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"searchGames"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestCreateGroup",
+			"item": [
+				{
+					"name": "Test Create Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "testName ; testDescription"
+						},
+						"url": {
+							"raw": "http://localhost:8888/createGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"createGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Create Group without Description",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "testName"
+						},
+						"url": {
+							"raw": "http://localhost:8888/createGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"createGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/createGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"createGroup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestListGroups",
+			"item": [
+				{
+					"name": "Test List Groups",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/listGroups",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"listGroups"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestEditGroup",
+			"item": [
+				{
+					"name": "Test Edit Group Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; Name ; testEdit"
+						},
+						"url": {
+							"raw": "http://localhost:8888/editGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"editGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test Edit Group Description",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; Description ; testDescriptionEdit"
+						},
+						"url": {
+							"raw": "http://localhost:8888/editGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"editGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "-1 ; Description ; testDescriptionEdit"
+						},
+						"url": {
+							"raw": "http://localhost:8888/editGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"editGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; Description"
+						},
+						"url": {
+							"raw": "http://localhost:8888/editGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"editGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; test ; testParameter"
+						},
+						"url": {
+							"raw": "http://localhost:8888/editGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"editGroup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestShowGroup",
+			"item": [
+				{
+					"name": "Test Show Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0"
+						},
+						"url": {
+							"raw": "http://localhost:8888/showGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"showGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "-1"
+						},
+						"url": {
+							"raw": "http://localhost:8888/showGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"showGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/showGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"showGroup"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestAddGame",
+			"item": [
+				{
+					"name": "Test Add Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/addGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"addGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong Group ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "-1 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/addGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"addGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0"
+						},
+						"url": {
+							"raw": "http://localhost:8888/addGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"addGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Game Already Exists In This Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/addGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"addGame"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestRemoveGame",
+			"item": [
+				{
+					"name": "Test Remove Game",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong Group ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "-1 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGame"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Game Non-existent In This Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 4"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGame",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGame"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TestGamesByRating",
+			"item": [
+				{
+					"name": "Test Search Games in Group 0 with Ratings between 65 and 80",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 65 ; 80"
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						},
+						"description": "Must add games to Group 0 before testing"
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong Group ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "-1 ; 65 ; 80"
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 65 "
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Max Greater Than 100",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 65 ; 110"
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Min Lower Than 0",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; -1 ; 80"
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Min Greater Than Max",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "0 ; 80 ; 65"
+						},
+						"url": {
+							"raw": "http://localhost:8888/gamesByRating",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"gamesByRating"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
