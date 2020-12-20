@@ -28,15 +28,17 @@ describe('service', function () {
 		  }
 			const db = null
 			const data = {
-				getPopularGames:function (done) {
-					done(null, game)
+				getPopularGames:function () {
+					return new Promise((resolve, reject) => {
+						resolve(game)
+					})
 				}
 			}
 										
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.getPopularGames((err, obj) => {
+			service.getPopularGames().then(obj => {
 
 				// Assert
 				assert.equal(obj,game)
@@ -62,15 +64,17 @@ describe('service', function () {
 			}
 			const db = null
 			const data = {
-				searchGames:function (gameName, done) {
-					done(null, game)
+				searchGames:function (gameName) {
+					return new Promise((resolve, reject) => {
+						resolve(game)
+					})
 				}
 			}
 										
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.searchGames('fifa', (err, obj) => {
+			service.searchGames('fifa').then(obj => {
 
 				// Assert
 				assert.equal(obj,game)
@@ -92,8 +96,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				createGroup:function (groupName, groupDescription, done) {
-					done(null, group)
+				createGroup:function (groupName, groupDescription) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = null
@@ -101,7 +107,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.createGroup('testName', 'testDescription',(err, obj) => {
+			service.createGroup('testName', 'testDescription').then(obj => {
 
 				// Assert
 				assert.equal(obj,group)
@@ -131,8 +137,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				listGroups:function (done) {
-					done(null, groups)
+				listGroups:function () {
+					return new Promise((resolve, reject) => {
+						resolve(groups)
+					})
 				}
 			}
 			const data = null
@@ -140,7 +148,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.listGroups((err, obj) => {
+			service.listGroups().then(obj => {
 
 				// Assert
 				assert.equal(obj,groups)
@@ -162,8 +170,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				editGroup:function (groupID, groupParameter, groupEdit, done) {
-					done(null, group)
+				editGroup:function (groupID, groupParameter, groupEdit) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = null
@@ -171,7 +181,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.editGroup("0", "Description", "testDescriptionEdit", (err, obj) => {
+			service.editGroup("0", "Description", "testDescriptionEdit").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -193,8 +203,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				showGroup:function (groupID, done) {
-					done(null, group)
+				showGroup:function (groupID) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = null
@@ -202,7 +214,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.showGroup("0", (err, obj) => {
+			service.showGroup("0").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -236,20 +248,24 @@ describe('service', function () {
 			}
 			
 			const db = {
-				addGame:function (groupID, gameID, game, done) {
-					done(null, group)
+				addGame:function (groupID, gameID, game) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = {
-				searchGameByID:function (gameID, done) {
-					done(null, game)
+				searchGameByID:function (gameID) {
+					return new Promise((resolve, reject) => {
+						resolve(game)
+					})
 				}
 			}
 										
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.addGame("0", "131887", (err, obj) => {
+			service.addGame("0", "131887").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -271,8 +287,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				removeGame:function (groupID, gameID, done) {
-					done(null, group)
+				removeGame:function (groupID, gameID) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = null
@@ -280,7 +298,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.removeGame("0", "131887", (err, obj) => {
+			service.removeGame("0", "131887").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -318,8 +336,10 @@ describe('service', function () {
 			}
 			
 			const db = {
-				gamesByRating:function (groupID, minRating, maxRating, done) {
-					done(null, group)
+				gamesByRating:function (groupID, minRating, maxRating) {
+					return new Promise((resolve, reject) => {
+						resolve(group)
+					})
 				}
 			}
 			const data = null
@@ -327,10 +347,45 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.gamesByRating("0", "90", "100", (err, obj) => {
+			service.gamesByRating("0", "90", "100").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
+				
+				done()
+			})
+		})
+	}),
+	
+	describe('removeGroup', function() {
+		it('should return a json object', function (done) {
+			// Arrange
+			const groups ={ "Groups": [
+					{
+						"id": 0,
+						"Name": "testName",
+						"Description": "testDescription",
+						"Games": []
+					}
+				]
+			}
+			
+			const db = {
+				removeGroup:function (groupID) {
+					return new Promise((resolve, reject) => {
+						resolve(groups)
+					})
+				}
+			}
+			const data = null
+										
+			const service = serviceCreator(db, data)
+			
+			// Act
+			service.removeGroup("1").then(obj => {
+
+				// Assert
+				assert.equal(obj, groups)
 				
 				done()
 			})

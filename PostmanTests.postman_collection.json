@@ -34,8 +34,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestSearchGamesByName",
@@ -44,10 +43,21 @@
 					"name": "Test Search Game \"fifa\"",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "fifa"
+							"raw": "{\"game\" : \"fifa\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8888/searchGames",
@@ -67,10 +77,21 @@
 					"name": "Test Search Game \"sonic\"",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "sonic"
+							"raw": "{\"game\" : \"sonic\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8888/searchGames",
@@ -90,10 +111,50 @@
 					"name": "Test Search Game \"call of duty\"",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "call of duty"
+							"raw": "{\"game\" : \"call of duty\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8888/searchGames",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"searchGames"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"game\" : \" \"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/searchGames",
@@ -109,8 +170,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestCreateGroup",
@@ -119,10 +179,16 @@
 					"name": "Test Create Group",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "testName ; testDescription"
+							"raw": "{\"name\" : \"testName\" , \"description\" : \"testDescription\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/createGroup",
@@ -142,10 +208,16 @@
 					"name": "Test Create Group without Description",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "testName"
+							"raw": "{\"name\" : \"testName\" , \"description\" : \" \"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/createGroup",
@@ -165,10 +237,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\"name\" : \" \" , \"description\" : \"testDescription\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/createGroup",
@@ -184,8 +262,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestListGroups",
@@ -216,8 +293,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestEditGroup",
@@ -226,10 +302,21 @@
 					"name": "Test Edit Group Name",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; Name ; testEdit"
+							"raw": "{\"id\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"parameter\" : \"Name\" , \"edit\" : \"testEdit\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8888/editGroup",
@@ -249,10 +336,16 @@
 					"name": "Test Edit Group Description",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; Description ; testDescriptionEdit"
+							"raw": "{\"id\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"parameter\" : \"Description\" , \"edit\" : \"testEdit\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/editGroup",
@@ -272,10 +365,16 @@
 					"name": "Wrong ID",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "-1 ; Description ; testDescriptionEdit"
+							"raw": "{\"id\" : \"0\" , \"parameter\" : \"Description\" , \"edit\" : \"testEdit\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/editGroup",
@@ -295,10 +394,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; Description"
+							"raw": "{\"id\" : \" \" , \"parameter\" : \"Description\" , \"edit\" : \"testEdit\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/editGroup",
@@ -318,10 +423,16 @@
 					"name": "Wrong Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; test ; testParameter"
+							"raw": "{\"id\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"parameter\" : \"test\" , \"edit\" : \"testEdit\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/editGroup",
@@ -337,8 +448,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestShowGroup",
@@ -347,10 +457,21 @@
 					"name": "Test Show Group",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0"
+							"raw": "{\"id\" : \"FM-RgXYB_YMpXeyu1DVr\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8888/showGroup",
@@ -370,10 +491,16 @@
 					"name": "Wrong ID",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "-1"
+							"raw": "{\"id\" : \"0\" }"
 						},
 						"url": {
 							"raw": "http://localhost:8888/showGroup",
@@ -393,10 +520,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\"id\" : \" \" }"
 						},
 						"url": {
 							"raw": "http://localhost:8888/showGroup",
@@ -412,8 +545,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestAddGame",
@@ -422,10 +554,16 @@
 					"name": "Test Add Game",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 4"
+							"raw": "{\"groupID\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/addGame",
@@ -445,10 +583,16 @@
 					"name": "Wrong Group ID",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "-1 ; 4"
+							"raw": "{\"groupID\" : \"0\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/addGame",
@@ -468,10 +612,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0"
+							"raw": "{\"groupID\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"gameID\" : \" \"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/addGame",
@@ -491,10 +641,16 @@
 					"name": "Game Already Exists In This Group",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 4"
+							"raw": "{\"groupID\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/addGame",
@@ -510,8 +666,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestRemoveGame",
@@ -520,10 +675,16 @@
 					"name": "Test Remove Game",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 4"
+							"raw": "{\"groupID\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/removeGame",
@@ -543,10 +704,16 @@
 					"name": "Wrong Group ID",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "-1 ; 4"
+							"raw": "{\"groupID\" : \"0\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/removeGame",
@@ -566,10 +733,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0"
+							"raw": "{\"groupID\" : \" \" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/removeGame",
@@ -589,10 +762,16 @@
 					"name": "Game Non-existent In This Group",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 4"
+							"raw": "{\"groupID\" : \"FM-RgXYB_YMpXeyu1DVr\" , \"gameID\" : \"10\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/removeGame",
@@ -608,8 +787,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "TestGamesByRating",
@@ -618,10 +796,16 @@
 					"name": "Test Search Games in Group 0 with Ratings between 65 and 80",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 65 ; 80"
+							"raw": "{\"id\" : \"SGcccnYBsMFcEG1nRI-H\" , \"min\" : \"85\", \"max\" : \"90\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -642,10 +826,16 @@
 					"name": "Wrong Group ID",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "-1 ; 65 ; 80"
+							"raw": "{\"id\" : \"0\" , \"min\" : \"85\", \"max\" : \"90\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -665,10 +855,16 @@
 					"name": "Missing Argument",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 65 "
+							"raw": "{\"id\" : \"SGcccnYBsMFcEG1nRI-H\" , \"min\" : \" \", \"max\" : \"90\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -688,10 +884,16 @@
 					"name": "Max Greater Than 100",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 65 ; 110"
+							"raw": "{\"id\" : \"SGcccnYBsMFcEG1nRI-H\" , \"min\" : \"85\", \"max\" : \"110\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -711,10 +913,16 @@
 					"name": "Min Lower Than 0",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; -1 ; 80"
+							"raw": "{\"id\" : \"SGcccnYBsMFcEG1nRI-H\" , \"min\" : \"-1\", \"max\" : \"90\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -734,10 +942,16 @@
 					"name": "Min Greater Than Max",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "0 ; 80 ; 65"
+							"raw": "{\"id\" : \"SGcccnYBsMFcEG1nRI-H\" , \"min\" : \"90\", \"max\" : \"85\"}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/gamesByRating",
@@ -753,9 +967,99 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "TestRemoveGroup",
+			"item": [
+				{
+					"name": "Test Remove Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\" : \"_89UgXYB_YMpXeyuBTTs\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\" : \"0\"}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGroup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Argument",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\" : \" \"}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/removeGroup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"removeGroup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

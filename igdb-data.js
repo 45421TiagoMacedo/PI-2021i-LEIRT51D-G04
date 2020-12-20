@@ -1,97 +1,68 @@
 'use strict'
 
 const urllib = require('urllib')
+const fetch = require('node-fetch')
 
 const error = require('./covida-errors.js')
 
 module.exports = {
-
-	getPopularGames: function (done) {
-		
-		urllib.request('https://api.igdb.com/v4/games', {
+	
+	getPopularGames: () => {
+		return fetch('https://api.igdb.com/v4/games', {
 			method: 'POST',
 			headers: {
 				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
 				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
 			},
-			data: 'fields name,rating; sort rating desc; where rating != null;',
+			body: 'fields name,rating; sort rating desc; where rating != null;',
 			
-		},
-		(err, data, res) => {
-				if (!err) {
-					if (res.statusCode == 200) {
-						
-					done(null, JSON.parse(data))
-				
-					} else {
-						done(error.EXTERNAL_SERVICE_FAILURE)
-					}
-				} else {
-					done(error.EXTERNAL_SERVICE_FAILURE)
-				}
+		}).then( response => {
+			if (response.status == 200 ) {
+				return Promise.resolve(response)
 			}
-		)
+			return Promise.reject(error.EXTERNAL_SERVICE_FAILURE)
+			
+		}).then(response => response.json())
+	},
+	
+	searchGames:  (gameName) => {
+		
+		return fetch('https://api.igdb.com/v4/games', {
+			method: 'POST',
+			headers: {
+				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
+				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
+			},
+			body: 'search "' + gameName + '"; fields name,rating;',
+			
+		}).then(response => {
+			if (response.status == 200 ) {
+				return Promise.resolve(response)
+			}
+			return Promise.reject(error.EXTERNAL_SERVICE_FAILURE)
+			
+		}).then(response => response.json())
+		
 		
 	},
 	
-	searchGames: function (gameName, done) {
+	searchGameByID: (gameID) => {
 		
-		urllib.request('https://api.igdb.com/v4/games', {
+		return fetch('https://api.igdb.com/v4/games', {
 			method: 'POST',
 			headers: {
 				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
 				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
 			},
-			data: 'search "' + gameName + '"; fields name,rating;',
+			body: 'fields name,rating; where id = ' + gameID + ';',
 			
-		},
-		(err, data, res) => {
-				if (!err) {
-					if (res.statusCode == 200) {
-						
-					done(null, JSON.parse(data))
-				
-					} else {
-						
-						done(error.EXTERNAL_SERVICE_FAILURE)
-					}
-				} else {
-					
-					done(error.EXTERNAL_SERVICE_FAILURE)
-				}
+		}).then(response => {
+			if (response.status == 200 ) {
+				return Promise.resolve(response)
 			}
-		)
-		
-	},
-	
-	searchGameByID: function (gameID, done) {
-		
-		urllib.request('https://api.igdb.com/v4/games', {
-			method: 'POST',
-			headers: {
-				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
-				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
-			},
-			data: 'fields name,rating; where id = ' + gameID + ';',
+			return Promise.reject(error.EXTERNAL_SERVICE_FAILURE)
 			
-		},
-		(err, data, res) => {
-				if (!err) {
-					if (res.statusCode == 200) {
-						
-					done(null, JSON.parse(data))
-				
-					} else {
-						
-						done(error.EXTERNAL_SERVICE_FAILURE)
-					}
-				} else {
-					
-					done(error.EXTERNAL_SERVICE_FAILURE)
-				}
-			}
-		)
+		}).then(response => response.json())
 		
 	}
-	
 }

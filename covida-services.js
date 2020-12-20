@@ -6,151 +6,96 @@ function service(db, data) {
 	
 	const theService = {
 		
-		getPopularGames: (resFunc) => {
-			data.getPopularGames((err, popularGames) => {
-				if (!err) {
-					resFunc(null, popularGames)
-				} else {
-					resFunc(err)
+		getPopularGames: () => {
+			return new Promise((resolve, reject) =>	{
+				resolve(data.getPopularGames())
+			})
+		},
+		
+		searchGames: (gameName) => {
+			return new Promise((resolve, reject) =>	{
+				if ( gameName && gameName.trim()) {
+					resolve(data.searchGames(gameName))
+				}else{
+					reject(error.MISSING_ARGUMENT)
 				}
 			})
-			
 		},
 		
-		searchGames: (gameName, resFunc) => {
-			if ( gameName != '') {
-				data.searchGames(gameName, (err, games) => {
-					if (!err) {
-						resFunc(null, games)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		createGroup: (groupName, groupDescription) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupName && groupName.trim()) {
+					resolve(db.createGroup(groupName.trim(), groupDescription.trim()))
+				}else{
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		createGroup: (groupName, groupDescription, resFunc) => {
-			if ( groupName != '') {
-				db.createGroup(groupName, groupDescription, (err, group) => {
-					if (!err) {
-						resFunc(null, group)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		listGroups: () => {
+			return new Promise((resolve, reject) =>	{
+				resolve(db.listGroups())
+			})
 		},
 		
-		listGroups: (resFunc) => {
-				db.listGroups((err, group) => {
-					if (!err) {
-						resFunc(null, group)
-					} else {
-						resFunc(err)
-					}
-				})
-			
+		editGroup: (groupID, groupParameter, groupEdit) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID && groupParameter && groupEdit && groupID.trim()) {
+					resolve(db.editGroup(groupID, groupParameter.trim(), groupEdit.trim()))
+				}else {
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		editGroup: (groupID, groupParameter, groupEdit, resFunc) => {
-			if ( groupID != '' && groupParameter != '' ) {
-				db.editGroup(groupID, groupParameter, groupEdit, (err, group) => {
-					if (!err) {
-						resFunc(null, group)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		showGroup: (groupID) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID &&  groupID.trim()) {
+					resolve(db.showGroup(groupID))
+				}else {
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		showGroup: (groupID, resFunc) => {
-			if ( groupID != '' ) {
-				db.showGroup(groupID, (err, group) => {
-					if (!err) {
-						resFunc(null, group)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		addGame: (groupID, gameID) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID && gameID && groupID.trim() && gameID.trim()) {
+					data.searchGameByID(gameID).then(game => resolve(db.addGame(groupID, gameID, game)))
+				}else {
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		addGame: (groupID, gameID, resFunc) => {
-			if ( groupID != '' && gameID != '') {
-				data.searchGameByID(gameID, (err, game) => {
-					if (!err) {
-						db.addGame(groupID, gameID, game, (erro, group) => {
-							if (!erro) {
-								resFunc(null, group)
-							} else {
-								resFunc(erro)
-							}
-						})
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		removeGame: (groupID, gameID) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID && gameID && groupID.trim() && gameID.trim()) {
+					resolve(db.removeGame(groupID, gameID))
+				}else {
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		removeGame: (groupID, gameID, resFunc) => {
-			if ( groupID != '' && gameID != '') {
-				db.removeGame(groupID, gameID, (err, group) => {
-					if (!err) {
-						resFunc(null, group)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		gamesByRating: (groupID, minRating, maxRating) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID && maxRating && minRating && groupID.trim() && maxRating.trim() && minRating.trim()) {
+					resolve(db.gamesByRating(groupID, parseInt(minRating), parseInt(maxRating)))
+				}else{
+					reject(error.MISSING_ARGUMENT)
+				}
+			})
 		},
 		
-		gamesByRating: (groupID, minRating, maxRating, resFunc) => {
-			if ( groupID != '' && maxRating != '' && minRating != '') {
-				db.gamesByRating(groupID, minRating, maxRating, (err, games) => {
-					if (!err) {
-						resFunc(null, games)
-					} else {
-						resFunc(err)
-					}
-				})
-			}else {
-				
-				resFunc(error.MISSING_ARGUMENT)
-				
-			}
-			
+		removeGroup: (groupID, resFunc) => {
+			return new Promise((resolve, reject) =>	{
+				if ( groupID && groupID.trim()) {
+					resolve(db.removeGroup(groupID))
+				}else {
+					reject(error.MISSING_ARGUMENT)
+				}
+			})			
 		}
 		
 	}
