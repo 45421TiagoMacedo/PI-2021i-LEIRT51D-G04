@@ -4,6 +4,11 @@ const assert = require('assert')
 
 const serviceCreator = require('../covida-services.js')
 
+const almightyUser = {
+	username: "almighty",
+	password: 1234
+}
+
 describe('service', function () {
 	describe('getPopularGames', function() {
 		it('should return a json object', function (done) {
@@ -107,7 +112,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.createGroup('testName', 'testDescription').then(obj => {
+			service.createGroup(almightyUser, 'testName', 'testDescription').then(obj => {
 
 				// Assert
 				assert.equal(obj,group)
@@ -148,7 +153,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.listGroups().then(obj => {
+			service.listGroups(almightyUser).then(obj => {
 
 				// Assert
 				assert.equal(obj,groups)
@@ -181,7 +186,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.editGroup("0", "Description", "testDescriptionEdit").then(obj => {
+			service.editGroup(almightyUser, "0", "Description", "testDescriptionEdit").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -214,7 +219,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.showGroup("0").then(obj => {
+			service.showGroup(almightyUser, "0").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -265,7 +270,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.addGame("0", "131887").then(obj => {
+			service.addGame(almightyUser, "0", "131887").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -298,7 +303,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.removeGame("0", "131887").then(obj => {
+			service.removeGame(almightyUser, "0", "131887").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -347,7 +352,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.gamesByRating("0", "90", "100").then(obj => {
+			service.gamesByRating(almightyUser, "0", "90", "100").then(obj => {
 
 				// Assert
 				assert.equal(obj, group)
@@ -382,7 +387,7 @@ describe('service', function () {
 			const service = serviceCreator(db, data)
 			
 			// Act
-			service.removeGroup("1").then(obj => {
+			service.removeGroup(almightyUser, "1").then(obj => {
 
 				// Assert
 				assert.equal(obj, groups)

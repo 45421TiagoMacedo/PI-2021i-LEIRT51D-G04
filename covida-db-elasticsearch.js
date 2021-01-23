@@ -12,30 +12,44 @@ function storage(host, port) {
 	
 	const theStorage = {
 		
-		listGroups: () => {
-			return fetch(`${itemsBaseUrl}/_search`)
+		listGroups: (user) => {
+			return fetch(`${itemsBaseUrl}/_search?size=100`)
 				.then( response => response.json())
-				.then( answer => answer.hits.hits.map(hit => {
+				.then( answer => answer.hits.hits.filter(hit => {
+					if(hit._source.user.name == user.name && hit._source.user.password == user.password){
+						return true
+					}
+					return false
+				}).map(hit => {
 					let group = hit._source
 					group["id"] = hit._id
 					return group
 				}))
 		},
 
-		createGroup: (groupName, groupDescription) => {
+		createGroup: (user, groupName, groupDescription) => {
 			return fetch(`${itemsBaseUrl}/_doc`, {
 					method: 'POST',
 					headers: {
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						"name": groupName, "description": groupDescription, "games" : []
+						"user": user, "name": groupName, "description": groupDescription, "games" : []
 					})
 				}).then( response => response.json())
 				.then(answer => answer._id)
 		},
 		
-		editGroup: (groupID, groupParameter, groupEdit) => {
+		editGroup: (user, groupID, groupParameter, groupEdit) => {
+			fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
+				method: 'GET',
+				headers: {
+					"Content-Type": "application/json"
+				}
+				}).then( response => response.json())
+				.then(answer => {
+					if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
+				})
 			if(groupParameter == 'Name' ){
 				return fetch(`${itemsBaseUrl}/_update/${groupID}?refresh=true`, {
 					method: 'POST',
@@ -80,7 +94,7 @@ function storage(host, port) {
 			return Promise.reject(error.WRONG_ARGUMENT)
 		},
 	
-		showGroup: (groupID) => {
+		showGroup: (user, groupID) => {
 			return fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
 					method: 'GET',
 					headers: {
@@ -88,12 +102,13 @@ function storage(host, port) {
 					}
 				}).then( response => response.json())
 				.then(answer => {
+					if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
 					if (!answer.found){ return Promise.reject(error.WRONG_ID)}
 					return answer._source
 				})
 		},
 	
-		addGame: (groupID, gameID, game) => {
+		addGame: (user, groupID, gameID, game) => {
 			return fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
 				method: 'GET',
 				headers: {
@@ -101,6 +116,7 @@ function storage(host, port) {
 				}
 			}).then( response => response.json())
 			.then(answer => {
+				if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
 				if (!answer.found){ return Promise.reject(error.WRONG_ID)}
 				let group = answer._source
 				const gm = group.games.find(g => g.id == gameID)
@@ -121,7 +137,7 @@ function storage(host, port) {
 			})
 		},
 	
-		removeGame: (groupID, gameID) => {
+		removeGame: (user, groupID, gameID) => {
 			return fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
 				method: 'GET',
 				headers: {
@@ -129,6 +145,7 @@ function storage(host, port) {
 				}
 			}).then( response => response.json())
 			.then(answer => {
+				if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
 				if (!answer.found){ return Promise.reject(error.WRONG_ID)}
 				let group = answer._source
 				const oldSize = group.games.length
@@ -149,7 +166,7 @@ function storage(host, port) {
 			})
 		},
 	
-		gamesByRating: (groupID, minRating, maxRating) => {
+		gamesByRating: (user, groupID, minRating, maxRating) => {
 			return fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
 				method: 'GET',
 				headers: {
@@ -157,6 +174,7 @@ function storage(host, port) {
 				}
 			}).then( response => response.json())
 			.then(answer => {
+				if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
 				if (!answer.found){ return Promise.reject(error.WRONG_ID)}
 				let group = answer._source
 				if(maxRating >= 0 && minRating >= 0 && maxRating <= 100 && minRating <= 100 && minRating <= maxRating){
@@ -170,7 +188,16 @@ function storage(host, port) {
 			})
 		},
 	
-		removeGroup: (groupID) => {
+		removeGroup: (user, groupID) => {
+			fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
+				method: 'GET',
+				headers: {
+					"Content-Type": "application/json"
+				}
+				}).then( response => response.json())
+				.then(answer => {
+					if(answer._source.user.name != user.name && answer._source.user.password != user.password){ return Promise.reject(error.UNAUTHORIZED)}
+				})
 			return fetch(`${itemsBaseUrl}/_doc/${groupID}`, {
 				method: 'DELETE',
 				headers: {

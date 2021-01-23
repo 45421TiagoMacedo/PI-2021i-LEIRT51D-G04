@@ -9,6 +9,9 @@ const port = process.argv[2] || default_port
 const express = require('express')
 const app = express()
 
+const authCreator = require('./covida-auth.js')
+const auth = authCreator(app)
+
 const storageCreator = require('./covida-db-elasticsearch.js')
 const db = storageCreator(storage_host, storage_port)
 
@@ -20,6 +23,16 @@ const serviceCreator = require('./covida-services.js')
 const service = serviceCreator(db, data)
 
 const webapiCreator = require('./covida-web-api.js')
-const webapi = webapiCreator(app, service)
+const webapi = webapiCreator(auth, service)
+
+const webuiCreator = require('./covida-webui.js')
+const webui = webuiCreator(auth, service)
+
+app.use('/api', webapi);
+app.use(webui);
+
+app.use('/public', express.static('my-static-files'));
+
+app.set('view engine', 'hbs')
 
 app.listen(port)

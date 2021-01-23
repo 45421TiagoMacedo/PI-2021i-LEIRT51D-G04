@@ -22,76 +22,100 @@ function service(db, data) {
 			})
 		},
 		
-		createGroup: (groupName, groupDescription) => {
+		createGroup: (user, groupName, groupDescription) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupName && groupName.trim()) {
-					resolve(db.createGroup(groupName.trim(), groupDescription.trim()))
+					resolve(db.createGroup(user, groupName.trim(), groupDescription.trim()))
 				}else{
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		listGroups: () => {
+		listGroups: (user) => {
 			return new Promise((resolve, reject) =>	{
-				resolve(db.listGroups())
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
+				resolve(db.listGroups(user))
 			})
 		},
 		
-		editGroup: (groupID, groupParameter, groupEdit) => {
+		editGroup: (user, groupID, groupParameter, groupEdit) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID && groupParameter && groupEdit && groupID.trim()) {
-					resolve(db.editGroup(groupID, groupParameter.trim(), groupEdit.trim()))
+					resolve(db.editGroup(user, groupID, groupParameter.trim(), groupEdit.trim()))
 				}else {
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		showGroup: (groupID) => {
+		showGroup: (user, groupID) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID &&  groupID.trim()) {
-					resolve(db.showGroup(groupID))
+					resolve(db.showGroup(user, groupID))
 				}else {
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		addGame: (groupID, gameID) => {
+		addGame: (user, groupID, gameID) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID && gameID && groupID.trim() && gameID.trim()) {
-					data.searchGameByID(gameID).then(game => resolve(db.addGame(groupID, gameID, game)))
+					data.searchGameByID(gameID).then(game => resolve(db.addGame(user, groupID, gameID, game)))
 				}else {
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		removeGame: (groupID, gameID) => {
+		removeGame: (user, groupID, gameID) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID && gameID && groupID.trim() && gameID.trim()) {
-					resolve(db.removeGame(groupID, gameID))
+					resolve(db.removeGame(user, groupID, gameID))
 				}else {
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		gamesByRating: (groupID, minRating, maxRating) => {
+		gamesByRating: (user, groupID, minRating, maxRating) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID && maxRating && minRating && groupID.trim() && maxRating.trim() && minRating.trim()) {
-					resolve(db.gamesByRating(groupID, parseInt(minRating), parseInt(maxRating)))
+					resolve(db.gamesByRating(user, groupID, parseInt(minRating), parseInt(maxRating)))
 				}else{
 					reject(error.MISSING_ARGUMENT)
 				}
 			})
 		},
 		
-		removeGroup: (groupID, resFunc) => {
+		removeGroup: (user, groupID, resFunc) => {
 			return new Promise((resolve, reject) =>	{
+				if (!user) {
+					reject(error.UNAUTHENTICATED)
+				}
 				if ( groupID && groupID.trim()) {
-					resolve(db.removeGroup(groupID))
+					resolve(db.removeGroup(user, groupID))
 				}else {
 					reject(error.MISSING_ARGUMENT)
 				}

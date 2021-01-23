@@ -4,9 +4,47 @@ const express = require('express')
 
 const error = require('./covida-errors.js')
 
-function webapi(app, service) {
+function webapi(auth, service) {
 	
 	const theWebApi = {
+
+		login: (req, res) => {
+			
+			const username = req.body.username
+			const password = req.body.password
+			
+			auth.login(req, username, password)
+			.then(() => {
+				const answer = { 'result': 'ok' }
+				res.json(answer)
+			})
+			.catch(err => {
+				res.status(500).json({ cause: 'Login failed.'})
+			})
+		},
+		
+		logout: (req, res) => {
+			
+			auth.logout(req)
+			.then(() => {
+				const answer = { 'result': 'ok' }
+				res.json(answer)
+			})
+			.catch(err => {
+				res.status(500).json({ cause: 'Logout failed.'})
+			})			
+		},
+
+		register: (req, res) => {
+			auth.register(req.body.username, req.body.password)
+			.then(() => {
+				const answer = { 'result': 'ok' }
+				res.json(answer)
+			})
+			.catch(err => {
+				res.status(500).json({ cause: 'Register failed.'})
+			})
+		},
 		
 		PopularGames: ( req, res ) =>  {
 			service.getPopularGames().then( popularGames => { 
@@ -51,12 +89,15 @@ function webapi(app, service) {
 		
 		createGroup: ( req, res ) => {
 				
-			service.createGroup(req.body.name, req.body.description).then(group => {
+			service.createGroup(req.user, req.body.name, req.body.description).then(group => {
 				
 				const answer = { 'Group': group }
 				res.json(answer)
 				}).catch(err =>  {
 					switch (err) {
+						case error.UNAUTHENTICATED:
+							res.status(401).json({ cause: 'Requires login.' })
+							break;
 						case error.MISSING_ARGUMENT:
 							res.status(400).json({ cause: 'Missing argument.' })
 							break;
@@ -70,19 +111,38 @@ function webapi(app, service) {
 		
 		listGroups: ( req, res ) => {
 				
-			service.listGroups().then(groups => {
-				const answer = { 'Groups': groups }
-				res.json(answer)
-			}).catch(err => res.status(500).json({ cause: 'Failed to get groups.'}))
+			service.listGroups(req.user).then(groups => {
+				if(groups.length == 0){res.json({'Groups': "No groups accessible to this user"})}
+				else{
+					const answer = { 'Groups': groups }
+					res.json(answer)
+				}
+			}).catch(err =>  {
+					switch (err) {
+						case error.UNAUTHENTICATED:
+							res.status(401).json({ cause: 'Requires login.' })
+							break;
+						default:
+							res.status(500).json({ cause: 'Failed to get groups.'})
+							break;
+					}
+					
+				}) 
 		},
 		
 		editGroup: ( req, res ) => {
 				
-			service.editGroup(req.body.id, req.body.parameter, req.body.edit).then(group => {
+			service.editGroup(req.user, req.body.id, req.body.parameter, req.body.edit).then(group => {
 				const answer = { 'Group': group }
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.WRONG_ID:
 						res.status(400).json({ cause: 'ID non-existent.' })
 						break;
@@ -101,11 +161,17 @@ function webapi(app, service) {
 		
 		showGroup: ( req, res ) => {
 				
-			service.showGroup(req.body.id).then( group => {
+			service.showGroup(req.user, req.body.id).then( group => {
 				const answer = { 'Group': group }
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.WRONG_ID:
 						res.status(400).json({ cause: 'ID non-existent.' })
 						break;
@@ -121,11 +187,17 @@ function webapi(app, service) {
 		
 		addGame: ( req, res ) => {
 			
-			service.addGame(req.body.groupID, req.body.gameID).then(group => {
+			service.addGame(req.user, req.body.groupID, req.body.gameID).then(group => {
 				const answer = { 'Group': group }
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.EXTERNAL_SERVICE_FAILURE:
 						res.status(502).json({ cause: 'External service failure.' })
 						break;
@@ -147,11 +219,17 @@ function webapi(app, service) {
 		
 		removeGame: ( req, res ) => {
 			
-			service.removeGame(req.body.groupID, req.body.gameID).then(group => {
+			service.removeGame(req.user, req.body.groupID, req.body.gameID).then(group => {
 				const answer = { 'Group': group }
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.WRONG_ID:
 						res.status(400).json({ cause: 'Group ID non-existent.' })
 						break;
@@ -170,11 +248,17 @@ function webapi(app, service) {
 		
 		gamesByRating: ( req, res ) => {
 		
-			service.gamesByRating(req.body.id, req.body.min, req.body.max).then(games => {
+			service.gamesByRating(req.user, req.body.id, req.body.min, req.body.max).then(games => {
 				const answer = { 'Games': games }
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.WRONG_ID:
 						res.status(400).json({ cause: 'ID non-existent.' })
 						break;
@@ -192,11 +276,17 @@ function webapi(app, service) {
 		},
 		
 		removeGroup: ( req, res ) => {
-			service.removeGroup(req.body.id).then( () => {
+			service.removeGroup(req.user, req.body.id).then( () => {
 				const answer = 'Group eliminated'
 				res.json(answer)
 			}).catch(err => {
 				switch (err) {
+					case error.UNAUTHENTICATED:
+						res.status(401).json({ cause: 'Requires login.' })
+						break;
+					case error.UNAUTHORIZED:
+						res.status(403).json({ cause: 'Not allowed for user.' })
+						break;
 					case error.WRONG_ID:
 						res.status(400).json({ cause: 'ID non-existent.' })
 						break;
@@ -212,21 +302,26 @@ function webapi(app, service) {
 		
 	}
 	
-	app.use(express.json())
+	const router = express.Router();
+	router.use(express.json())
 	
-	app.get('/popularGames', theWebApi.PopularGames)
-	app.post('/searchGames', theWebApi.searchGames)
-	app.post('/createGroup', theWebApi.createGroup)
-	app.get('/listGroups', theWebApi.listGroups)
-	app.post('/editGroup', theWebApi.editGroup)
-	app.post('/showGroup', theWebApi.showGroup)
-	app.post('/addGame', theWebApi.addGame)
-	app.post('/removeGame', theWebApi.removeGame)
-	app.post('/gamesByRating', theWebApi.gamesByRating)
-	app.post('/removeGroup', theWebApi.removeGroup)
+	router.get('/popularGames', theWebApi.PopularGames)
+	router.post('/searchGames', theWebApi.searchGames)
+	router.post('/createGroup', theWebApi.createGroup)
+	router.get('/listGroups', theWebApi.listGroups)
+	router.post('/editGroup', theWebApi.editGroup)
+	router.post('/showGroup', theWebApi.showGroup)
+	router.post('/addGame', theWebApi.addGame)
+	router.post('/removeGame', theWebApi.removeGame)
+	router.post('/gamesByRating', theWebApi.gamesByRating)
+	router.post('/removeGroup', theWebApi.removeGroup)
+	
+	router.post('/login',  theWebApi.login)
+	router.post('/logout', theWebApi.logout)
+	router.post('/register', theWebApi.register)
 
 	
-	return theWebApi
+	return router
 	
 }
 

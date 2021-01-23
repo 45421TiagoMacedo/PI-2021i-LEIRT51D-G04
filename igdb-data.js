@@ -26,7 +26,6 @@ module.exports = {
 	},
 	
 	searchGames:  (gameName) => {
-		
 		return fetch('https://api.igdb.com/v4/games', {
 			method: 'POST',
 			headers: {
