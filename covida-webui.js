@@ -11,7 +11,9 @@ function webui(auth, service){
 		login: (req, res) => {
 			auth.login(req, req.body.username, req.body.password)
 			.then(() => {
-				res.redirect('/')
+				setTimeout(() => {
+					res.redirect('/')
+				}, 3000);
 			})
 			.catch(err => {
 				res.statusCode = 401
@@ -22,7 +24,9 @@ function webui(auth, service){
 		logout: (req, res) => {
 			auth.logout(req)
 			.then(() => {
-				res.redirect('/')
+				setTimeout(() => {
+					res.redirect('/')
+				}, 1000);
 			})
 			.catch(err => {
 				res.statusCode = 401
@@ -37,7 +41,9 @@ function webui(auth, service){
 		register: (req, res) => {
 			auth.register(req.body.username, req.body.password)
 			.then(() => {
-				res.redirect(307, 'login')
+				setTimeout(() => {
+					res.redirect(307, 'login')
+				}, 1000);
 			})
 			.catch(err => {
 				res.statusCode = 401

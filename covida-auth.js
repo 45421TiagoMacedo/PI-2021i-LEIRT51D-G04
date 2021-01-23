@@ -41,7 +41,6 @@ module.exports = (app) => {
 	return {
 		login: (req, username, password) => new Promise((resolve, reject) => {
 			if (username && password) {
-				console.log(users)
 				const user = users[username];
 				if (user && password === user.password) {
 					req.login(user, (err, result) => {
