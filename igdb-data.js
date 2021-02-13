@@ -12,7 +12,7 @@ module.exports = {
 			method: 'POST',
 			headers: {
 				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
-				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
+				'Authorization': 'Bearer 12rltcrzolg0va6143d7vr6dwsgr2z'
 			},
 			body: 'fields name,rating; sort rating desc; where rating != null;',
 			
@@ -30,7 +30,7 @@ module.exports = {
 			method: 'POST',
 			headers: {
 				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
-				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
+				'Authorization': 'Bearer 12rltcrzolg0va6143d7vr6dwsgr2z'
 			},
 			body: 'search "' + gameName + '"; fields name,rating;',
 			
@@ -51,7 +51,7 @@ module.exports = {
 			method: 'POST',
 			headers: {
 				'Client-ID': 'rrk0oqytwlxp6vuhe625zfrmj9x47c',
-				'Authorization': 'Bearer 5zcgfq49fu786y8ijxgtmcci3zg2ph'
+				'Authorization': 'Bearer 12rltcrzolg0va6143d7vr6dwsgr2z'
 			},
 			body: 'fields name,rating; where id = ' + gameID + ';',
 			

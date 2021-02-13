@@ -10,6 +10,8 @@ function storage(host, port) {
 	
 	const itemsBaseUrl = `${baseUrl}/covida`
 	
+	const usersBaseUrl = `${baseUrl}/covida-users`
+	
 	const theStorage = {
 		
 		listGroups: (user) => {
@@ -207,6 +209,39 @@ function storage(host, port) {
 			.then(answer => {
 				if(answer.result == 'not_found'){return Promise.reject(error.WRONG_ID)}
 			})
+		},
+	
+		register: (username, password) => {
+			return fetch(`${usersBaseUrl}/_doc`, {
+					method: 'POST',
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						"username": username, "password": password
+					})
+				}).then( response => response.json())
+				.then(answer => fetch(`${usersBaseUrl}/_doc/${answer._id}`, {
+					method: 'GET',
+					headers: {
+						"Content-Type": "application/json"
+					}
+				}).then( response => response.json()).then(answer => answer._source))
+		},
+		
+		listUsers: () => {
+			return fetch(`${usersBaseUrl}/_search?size=100`)
+				.then( response => response.json())
+				.then( answer => {
+					if(answer.error){
+						return []
+					}else {
+						return answer.hits.hits.map(hit => {
+							return hit._source
+						})
+					}
+				}
+			)
 		}
 		
 	}

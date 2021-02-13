@@ -9,9 +9,6 @@ const port = process.argv[2] || default_port
 const express = require('express')
 const app = express()
 
-const authCreator = require('./covida-auth.js')
-const auth = authCreator(app)
-
 const storageCreator = require('./covida-db-elasticsearch.js')
 const db = storageCreator(storage_host, storage_port)
 
@@ -21,6 +18,9 @@ const data = require('./igdb-data.js')
 
 const serviceCreator = require('./covida-services.js')
 const service = serviceCreator(db, data)
+
+const authCreator = require('./covida-auth.js')
+const auth = authCreator(app,service)
 
 const webapiCreator = require('./covida-web-api.js')
 const webapi = webapiCreator(auth, service)

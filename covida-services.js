@@ -120,6 +120,18 @@ function service(db, data) {
 					reject(error.MISSING_ARGUMENT)
 				}
 			})			
+		},
+		
+		register: (username, password) => {
+			return new Promise((resolve, reject) =>	{
+					resolve(db.register(username, password))
+			})			
+		},
+		
+		listUsers: () => {
+			return new Promise((resolve, reject) =>	{
+					resolve(db.listUsers())
+			})			
 		}
 		
 	}

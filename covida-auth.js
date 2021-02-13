@@ -7,24 +7,26 @@ const session = require('express-session');
 
 const FileStore = require('session-file-store')(session)
 
-
-function userToRef(user, done) {
-	done(null, user.username);
-}
-
-function refToUser(userRef, done) {
-	const user = users[userRef]; 
-	if (user) {
-		done(null, user);
-	} else {
-		done('User unknown');
-	}
-}
-
-const users = { }
-
-module.exports = (app) => {
+module.exports = (app,service) => {
 	
+	function userToRef(user, done) {
+		done(null, user.username);
+	}
+
+	function refToUser(userRef, done) {
+		service.listUsers().then(users => users.filter(user =>{
+			if(user.username == userRef){
+				return true
+			}
+			return false
+		})).then(user => {
+			if (user.length!=0) {
+				done(null, user[0]);
+			} else {
+				done('User unknown');
+			}
+		})
+	}
 	app.use(session({
 		resave: true,
 		saveUninitialized: true,
@@ -41,18 +43,26 @@ module.exports = (app) => {
 	return {
 		login: (req, username, password) => new Promise((resolve, reject) => {
 			if (username && password) {
-				const user = users[username];
-				if (user && password === user.password) {
-					req.login(user, (err, result) => {
-						if (err) {
-							reject(err)
-						} else {
-							resolve(result)
-						}
-					})
-				} else {
-					reject('Bad username or password.');
-				}
+				service.listUsers().then(users => users.filter(user =>{
+					if(user.username == username && user.password == password){
+						return true
+					}
+					return false
+				})).then(user => {
+					console.log(user[0])
+					if (user.length!=0) {
+						req.login(user[0], (err, result) => {
+							if (err) {
+								reject(err)
+							} else {
+								resolve(result)
+							}
+						})
+					} else {
+						reject('Bad username or password.');
+					}
+				})
+				
 			} else {
 				reject('Missing username or password.')
 			}
@@ -65,8 +75,18 @@ module.exports = (app) => {
 		}),
 		register: (username, password) => new Promise((resolve, reject) => {
 			if (username && password) {
-				users[username] = { username: username, password: password}
-				resolve(users)
+				service.listUsers().then(users => users.filter(user =>{
+					if(user.username == username){
+						return true
+					}
+					return false
+				})).then(user => {
+					if (user.length!=0) {
+						reject('Username already taken.')
+					}else{
+						service.register(username, password).then(u => {resolve(u)})
+					}
+				})
 			}else {
 				reject('Missing username or password.')
 			}
